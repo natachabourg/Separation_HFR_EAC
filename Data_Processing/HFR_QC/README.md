@@ -5,7 +5,7 @@ This folder contains Matlab scripts to QC radar data off Newcastle (CODAR) and C
 
 Matlab scripts to create a radial grid are in the 'Create_Radial_Grid' folder. It is later used in the QC to compute spatial gradients using xr and yr. 
 
-All QC functions are in the 'Functions_QC' folder. And two main scripts : 'main_codar.m' and 'main_wera.m' have been run to process the data.
+All QC functions (from Dylan Dumas, Matthew Archer, Natacha Bourg) are in the 'Functions_QC' folder. And two main scripts : 'main_codar.m' and 'main_wera.m' have been run to process the data.
 
 _______________________________________________________________________________
 
