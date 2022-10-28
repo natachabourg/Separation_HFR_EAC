@@ -1,0 +1,114 @@
+ ********************************************************************
+ Numerical data read
+ You entered the values:
+ number of EOF modes you want to compute          25
+ maximal size for the Krylov subspace          30
+
+ You asked for the normalisation of the input matrices
+
+ The right and left EOFs will be written in directory /home/natachab/Bureau/eac_chloro_hfr_analysis/hfr_data_processing/gap_filling/run_newcastle/my_result_folder/log2
+
+ ********************************************************************
+
+ You entered filenames /home/natachab/Bureau/eac_chloro_hfr_analysis/hfr_data_processing/gap_filling/run_newcastle/pre_post_processing/daily_2019_2021_RHED_pre.nc#v
+                       /home/natachab/Bureau/eac_chloro_hfr_analysis/hfr_data_processing/gap_filling/run_newcastle/pre_post_processing/mask_2019_2021_RHED.nc#mask
+ You entered filenames /home/natachab/Bureau/eac_chloro_hfr_analysis/hfr_data_processing/gap_filling/run_newcastle/pre_post_processing/daily_2019_2021_SEAL_pre.nc#v
+                       /home/natachab/Bureau/eac_chloro_hfr_analysis/hfr_data_processing/gap_filling/run_newcastle/pre_post_processing/mask_2019_2021_SEAL.nc#mask
+
+
+ ********************************************************************
+ Now some statistics about your data:
+
+  Number of mask land points:                                    2820
+        Dimension of file  1:                    20  x   180  x   915
+
+  Number of mask land points:                                    2545
+        Dimension of file  2:                    20  x   180  x   915
+
+ end subroutine stat
+
+                        Mean:                                    0.02
+          Standard deviation:                                    0.25
+
+ end subroutine stat
+
+                        Mean:                                   -0.09
+          Standard deviation:                                    0.30
+
+ ***
+ Matrix loaded ... Land points extracted...
+
+ Size of the matrix used in DINEOF:                     1835 x    915
+ ***
+ Diffusion of covariance matrix activated
+ with parameters: alpha =  0.50    and number of iterations =   3
+
+ Missing data:                    393105 out of     1679025 ( 23.41%)
+
+ Number of cross validation points                              16830
+ ********************************************************************
+
+ Time (in seconds) for 1 EOF mode calculation in DINEOF   14.0786
+
+ # EOF modes asked:  25        Convergence level required: 0.1E-02
+
+ Starting with the EOF mode calculation...
+
+ EOF mode    Expected Error    Iterations made   Convergence achieved
+ ________    ______________    _______________   ____________________
+
+      1              0.7334                 25             0.9796E-03
+      2              0.6482                 22             0.9882E-03
+      3              0.6084                 22             0.9773E-03
+      4              0.5831                 36             0.9927E-03
+      5              0.5659                 24             0.9542E-03
+      6              0.5519                 57             0.9878E-03
+      7              0.5396                 27             0.9591E-03
+      8              0.5319                 38             0.9730E-03
+      9              0.5248                 59             0.9899E-03
+     10              0.5193                 76             0.9849E-03
+     11              0.5154                 43             0.9984E-03
+     12              0.5103                 27             0.9751E-03
+     13              0.5068                100             0.9972E-03
+     14              0.5038                 61             0.9861E-03
+     15              0.5010                 52             0.9821E-03
+     16              0.4984                142             0.9911E-03
+     17              0.4961                300             0.1929E-02
+     18              0.4940                163             0.9966E-03
+     19              0.4929                300             0.1456E-02
+     20              0.4921                134             0.9774E-03
+     21              0.4912                300             0.5279E-02
+     22              0.4898                273             0.9926E-03
+     23              0.4888                 88             0.9158E-03
+     24              0.4882                300             0.3434E-02
+     25              0.4878                300             0.3016E-02
+
+  Minimum reached in cross-validation
+  Number of optimal EOF modes:           25
+
+  Make last reconstruction, including data put aside for cross-validation
+
+     25              0.4878                300             0.3016E-02
+
+ DINEOF finished!
+
+number of eigenvalues retained for the reconstruction  25
+         expected error calculated by cross-validation     0.4878
+            total time (in seconds) in lanczos process 31045.8944
+
+ Now writing data...
+ total variance of the initial matrix   0.99999999999999589     
+ total variance of the reconstructed matrix   0.98035173417791110     
+ Sum of the squares of the singular values of the           25 eof retained   1285585.4568135671     
+ SCE filled matrix (valex eliminated)=    1285585.3062689882     
+
+ mean    2.0478422164944415E-002
+ Standard deviation  0.21889827263403916       0.24772483794255332       0.30138018652941218        2.0247655380361884E-002  -9.3197400880870113E-002
+
+
+ mean  -0.10442016654005058     
+ Standard deviation  0.26154093834854836       0.24772483794255332       0.30138018652941218        2.0247655380361884E-002  -9.3197400880870113E-002
+
+
+ ...done!
+

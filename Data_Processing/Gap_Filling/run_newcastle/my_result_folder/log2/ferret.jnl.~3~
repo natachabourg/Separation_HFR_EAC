@@ -1,0 +1,24 @@
+ ! NOAA/PMEL TMAP
+ ! PyFerret v7.3 (optimized)
+ ! Debian - 6/30/16 
+ ! 27-Jul-22 11:59     
+
+set mode verify
+use currents_minus_NEWC_Y2019M07_Y2020M12.nc
+sh d
+repeat/l=1:915 (vec/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;à
+repeat/l=1:915 (vec/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;)
+repeat/l=1:915 (vec/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;)
+sh d
+repeat/l=1:915 (vec/len=0.8/xskip=3/yskip=3 u,v,lon,lat; message quiet;)
+repeat/l=1:915 (vec/len=0.8/xskip=2/yskip=2 u,v,lon,lat; message quiet;)
+repeat/l=19 (vec/len=0.8/xskip=2/yskip=2 u,v,lon,lat; message quiet;)
+use ../../pre_post_processing/daily_2019_2021_RHED_pre.nc
+use ../../pre_post_processing/daily_2019_2021_SEAL_pre.nc
+set win/n; set win/as=0.5; set view left; shade/d=2/pal=rainbow/lev=(-1.5 1.5 0.1)/l=19 vr,lon,lat; set view right; shade/d=3/l=19/pal=rainbow/lev=(-1.5 1.5 0.1) vr,lon,lat;
+set view left; shade/d=2/pal=rainbow/lev=(-1.5 1.5 0.1)/l=19 v,lon,lat; set view right; shade/d=3/l=19/pal=rainbow/lev=(-1.5 1.5 0.1) v,lon,lat;
+use daily_2019_2021_RHED_din.nc
+use daily_2019_2021_SEAL_din.nc
+set win/n; set win/as=0.5; set view left; shade/d=4/pal=rainbow/lev=(-1.5 1.5 0.1)/l=19 v,lon,lat; set view right; shade/d=5/l=19/pal=rainbow/lev=(-1.5 1.5 0.1) v,lon,lat;
+set win/n; set win/as=0.5; set view left; shade/d=4/pal=rainbow/lev=(-1.5 1.5 0.1)/l=19 v,lon[d=2],lat[d=2]; set view right; shade/d=5/l=19/pal=rainbow/lev=(-1.5 1.5 0.1) v,lon[d=3],lat[d=3];
+set view left; shade/d=4/pal=rainbow/lev=(-1.5 1.5 0.1)/k=19 v,lon[d=2],lat[d=2]; set view right; shade/d=5/k=19/pal=rainbow/lev=(-1.5 1.5 0.1) v,lon[d=3],lat[d=3];

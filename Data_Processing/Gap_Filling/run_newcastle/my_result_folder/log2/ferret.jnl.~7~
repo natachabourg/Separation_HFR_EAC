@@ -1,0 +1,9 @@
+ ! NOAA/PMEL TMAP
+ ! PyFerret v7.3 (optimized)
+ ! Debian - 6/30/16 
+ ! 27-Jul-22 16:30     
+
+set mode verify
+use currents_ang_NEWC_Y2019M07_Y2021M12.nc
+sh d
+repeat/l=1:915 (vec/len=1 u,v,lon,lat; message quiet;)

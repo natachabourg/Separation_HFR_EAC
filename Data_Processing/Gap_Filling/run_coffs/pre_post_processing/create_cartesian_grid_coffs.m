@@ -1,0 +1,77 @@
+
+addpath('/home/natachab/RADAR_NATACHA/Function_import/')
+addpath('/home/natachab/RADAR_NATACHA/Function_installation/')
+
+map.lonlat_xy = 1;              % use 1: lon/lat coordinates
+                                %     2: x/y coordinates in km
+map.plot_bath=0;% plot isobaths (0 or 1) whose values are in installation/trace_coast.m
+map.bath_levels= [-100 -1000 -2000]; % isobaths levels to plot
+map.plot_land=0; %%% 0: trace les terres en couleurs; 0: rien
+
+map.lon0      = 154.5;       % reference lon for x/y maps (only if map.lonlat_xy==2)
+map.lat0      = -30.5;      % reference lat for x/y maps (only if map.lonlat_xy==2)
+
+%%%radiale:
+map.lon_lim   = [152.5  155.5]';% longitude range of the map [decimal deg]
+map.lat_lim   = [-31.5 -29.5]';   % latitude range of the map  [decimal deg]
+
+                              
+% Peyras
+RADAR_infos(1).name        = 'RRK';     % same as the cll/xyv files suffix
+RADAR_infos(1).lon_rx      = 153.23;  % RX longitude [decimal deg]
+RADAR_infos(1).lat_rx      = -29.98; % RX latitude  [decimal deg]
+RADAR_infos(1).lon_tx      = 153.23;  % TX longitude [decimal deg]
+RADAR_infos(1).lat_tx      = -29.98; % TX latitude  [decimal deg]
+RADAR_infos(1).integr_time = 1;
+RADAR_infos(1).lon0        = 153.23;  % Origin of the radial grid, longitude [decimal deg]
+RADAR_infos(1).lat0        = -29.98; % Origin of the radial grid, latitude  [decimal deg]
+RADAR_infos(1).mono_bi = 1;
+RADAR_infos(1).obs_id      ='L2bis';%'L2_Dineof';%'L1'; %'L2_Dineof';%     % descriptif observation original
+
+
+% Bénat - Porquerolles
+RADAR_infos(2).name        = 'NNB';     % same as the cll/xyv files suffix
+RADAR_infos(2).lon_rx      = 153.01;  % RX longitude [decimal deg]
+RADAR_infos(2).lat_rx      = -30.62; % RX latitude  [decimal deg]
+RADAR_infos(2).lon_tx      = 153.01;  % TX longitude [decimal deg]
+RADAR_infos(2).lat_tx      = -30.62; % TX latitude  [decimal deg]
+RADAR_infos(2).lon0        = 153.01;  % Origin of the radial grid, longitude [decimal deg]
+RADAR_infos(2).lat0        = -30.62; % Origin of the radial grid, latitude  [decimal deg]
+RADAR_infos(2).integr_time = 1;
+RADAR_infos(2).mono_bi = 1;                                           %                   n for n*the_reference_time)
+RADAR_infos(2).obs_id      = RADAR_infos(1).obs_id ;%'L2_Dineof';%'L1';%'L2_Dineof';%      % descriptif observation original
+
+
+for i_radar = 1 : length(RADAR_infos)
+    [RADAR_infos(i_radar).x_rx RADAR_infos(i_radar).y_rx] = ...
+                    xy2lonlat(RADAR_infos(i_radar).lon_rx,RADAR_infos(i_radar).lat_rx, ...
+                              map.lon0,map.lat0,1);
+    [RADAR_infos(i_radar).x_tx RADAR_infos(i_radar).y_tx] = ...
+                    xy2lonlat(RADAR_infos(i_radar).lon_tx,RADAR_infos(i_radar).lat_tx, ...
+                              map.lon0,map.lat0,1);
+
+    if RADAR_infos(i_radar).lon_tx == RADAR_infos(i_radar).lon_rx && ...
+       RADAR_infos(i_radar).lat_tx == RADAR_infos(i_radar).lat_rx
+        RADAR_infos(i_radar).mono_bi = 1;
+    else
+        RADAR_infos(i_radar).mono_bi = 2;
+    end
+    
+    radial_data_params(i_radar).name = RADAR_infos(i_radar).name;
+end
+
+
+
+
+cartesian_grid.lon_lim    = [152.5 155.5]';%[5.7 6.7]'; %%     % longitude limits
+cartesian_grid.lat_lim    = [-31.5 -29.5]';%[42.45 43.05]';%  % latitude limits
+cartesian_grid.step       = 1;%2;               % grid step (same for x and y) [km]
+cartesian_grid.rot_angle  = 0;               % counterclockwise rotation angle of the grid wrt the WE axis
+cartesian_grid.GDOP_thresh = 2.5;            % maximum allowed normalized GDOP error
+cartesian_grid.ang_thresh  = 40;             % minimum allowed angle between "radial" directions [deg]
+
+
+
+
+cartesian_grid = install_grid(map,RADAR_infos,cartesian_grid);
+

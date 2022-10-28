@@ -1,0 +1,10 @@
+ ! NOAA/PMEL TMAP
+ ! PyFerret v7.3 (optimized)
+ ! Debian - 6/30/16 
+ ! 10-Oct-22 09:01     
+
+set mode verify
+use daily_2019_2021_SEAL_din.nc
+sh d
+repeat/l=1:915 (shade/vlim=(-1 1 0.1) v; message quiet)
+EXIT /PROGRAM

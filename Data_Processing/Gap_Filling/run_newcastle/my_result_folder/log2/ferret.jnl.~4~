@@ -1,0 +1,14 @@
+ ! NOAA/PMEL TMAP
+ ! PyFerret v7.3 (optimized)
+ ! Debian - 6/30/16 
+ ! 27-Jul-22 12:13     
+
+set mode verify
+use daily_2019_2021_RHED_din.nc
+use daily_2019_2021_SEAL_din.nc
+use ../../pre_post_processing/daily_2019_2021_RHED_pre.nc
+use ../../pre_post_processing/daily_2019_2021_SEAL_pre.nc
+set win/as=0.5; set view left; shade/k=19/d=1 vr; set view right; shade/k=19/d=2 vr;
+set win/as=0.5; set view left; shade/k=19/d=1 v; set view right; shade/k=19/d=2 v;
+set win/as=0.5; set view left; shade/k=19/d=1/lev=(-1.5 1.5 0.1) v,lon[d=3],lat[d=3]; set view right; shade/k=19/d=2/lev=(-1.5 1.5 0.1) v,lon[d=4],lat[d=4];
+quit
