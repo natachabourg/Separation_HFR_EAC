@@ -1,4 +1,5 @@
 %Géometrie_bistatique
+%Dylan Dumas
 % lon_Rx, lon_Tx, lat_Rx, lat_Tx sont les coordonnées lonlat des émetteur
 % et récepteur, elles sont définies dans mainTLN.m,  section i_site
 

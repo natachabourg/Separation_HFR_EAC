@@ -3,8 +3,11 @@
 % Create radial grid for Newcastle radar data
 % For the moment the script only works for monostatic radials so only
 % Newcastle
-
-
+%
+% Grids have already been generated but
+% This script has been run on Respore, so need to update paths and download needed file in local if we need to re-compute the grid
+% 
+%
 
 clc; clear all; close all;
 
