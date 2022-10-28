@@ -7,6 +7,8 @@ Matlab scripts to create a radial grid are in the 'Create_Radial_Grid' folder. I
 
 All QC functions (from Dylan Dumas, Matthew Archer, Natacha Bourg) are in the 'Functions_QC' folder. And two main scripts : 'main_codar.m' and 'main_wera.m' have been run to process the data.
 
+Data is later lowpass filtered (38hrs with pl66tn.m) and daily averaged in a new files using Matlab scripts in the 'Daily_Average' folder.
+
 _______________________________________________________________________________
 
 QC for CODAR radar off Newcastle (RHED and SEAL): 
