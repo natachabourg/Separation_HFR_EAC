@@ -102,7 +102,7 @@ end
 time_day = datetime(2019,7,1):days(1):datetime(2021,12,31);
 time_hour = datetime(2019,7,1,1,0,0):hours(1):datetime(2021,12,31,24,0,0);
 
-time = 0:number_days-1;
+time = 0:number_days-1;correct
 
 %% only for illustrative purposes
 
