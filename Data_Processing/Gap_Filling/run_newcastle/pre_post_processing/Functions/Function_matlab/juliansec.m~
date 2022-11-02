@@ -1,0 +1,15 @@
+function [ sss ] = juliansec( AAAA,MM,DD,hh,mm,ss )
+%Donne le nombre de seconde écoulé depuis le début de l'année
+
+
+if AAAA==1996||2000||2004||2008||2012||2016 % annes bixextiles
+    days_in_prev_months = [0 31 60 91 121 152 182 213 244 274 305 335];
+else
+    days_in_prev_months = [0 31 59 90 120 151 181 212 243 273 304 334];
+end
+
+   sss= days_in_prev_months(MM)*86400 ...               % days in prev. months      
+        + DD*86400 ...                                    % day in month
+        + ( ss + 60*mm + 3600*hh );  % part of day
+
+end

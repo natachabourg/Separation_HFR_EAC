@@ -1,0 +1,28 @@
+
+%
+%
+%
+
+
+function plot_radial_mask(map,data)
+
+figure; hold on;
+
+% Trace coastline and bathymetry
+trace_coast(map);
+
+% Trace the mask
+colormap(gray(2));
+mask = data.mask;
+mask(isnan(mask)) = 0;
+if map.lonlat_xy == 1
+    h = m_pcolor(data.lonr,data.latr,mask);
+%     set(h,'LineStyle','None');              % equivalent to shading flat,
+    caxis([0 1]);                          % only shading flat gives a strange result
+else
+    [dx, dy] = xy2lonlat(data.lon0,data.lat0,map.lon0,map.lat0,1);
+    h = pcolor(data.xr-dx,data.yr-dy,mask);
+%     shading flat;
+    caxis([0 1]);
+end
+

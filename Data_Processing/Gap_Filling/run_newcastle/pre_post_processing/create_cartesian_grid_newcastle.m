@@ -1,5 +1,6 @@
 
-addpath('/home/natachab/RADAR_NATACHA/Function_import/')
+addpath('/media/nbourg/One Touch/PhD/Separation_HFR_EAC/Data_Processing/Gap_Filling/run_newcastle/pre_post_processing/Functions/Function_import/')
+addpath('/media/nbourg/One Touch/PhD/Separation_HFR_EAC/Data_Processing/Gap_Filling/run_newcastle/pre_post_processing/Functions/Function_installation/')
 
 
 map.lonlat_xy = 1;              % use 1: lon/lat coordinates
@@ -63,12 +64,12 @@ end
 
 
 
-cartesian_grid.lon_lim    = [151 154]';%[5.7 6.7]'; %%     % longitude limits
-cartesian_grid.lat_lim    = [-35 -32]';%[42.45 43.05]';%  % latitude limits
-cartesian_grid.step       = 10;%2;               % grid step (same for x and y) [km]
+cartesian_grid.lon_lim    = [150.7 155.2]';%[5.7 6.7]'; %%     % longitude limits
+cartesian_grid.lat_lim    = [-34.6 -30.5]';%[42.45 43.05]';%  % latitude limits
+cartesian_grid.step       = 6;%2;               % grid step (same for x and y) [km]
 cartesian_grid.rot_angle  = 0;               % counterclockwise rotation angle of the grid wrt the WE axis
 cartesian_grid.GDOP_thresh = 2.5;            % maximum allowed normalized GDOP error
-cartesian_grid.ang_thresh  = 40;             % minimum allowed angle between "radial" directions [deg]
+cartesian_grid.ang_thresh  = 30;             % minimum allowed angle between "radial" directions [deg]
 
 
 

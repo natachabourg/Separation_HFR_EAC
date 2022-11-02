@@ -1,0 +1,28 @@
+function [ map ] = maprwb( ecart )
+%cree une map rouge blanc bleu pour colormap
+% le parametre "ecart" permet définir la "largeur" de blanc
+
+%ecart=40;
+    Xcol=1:100;
+    xcol=[1 (50-floor(ecart/2)) (50+floor(ecart/2)) 100];
+    %%% bleu rouge
+%     ycol1=[0 1 1 1]; Ycol1=interp1(xcol,ycol1,Xcol);
+%     ycol2=[0 1 1 0]; Ycol2=interp1(xcol,ycol2,Xcol);
+%     ycol3=[1 1 1 0]; Ycol3=interp1(xcol,ycol3,Xcol);
+%%% cyan rose
+%     ycol1=[0 1 1 1]; Ycol1=interp1(xcol,ycol1,Xcol);
+%     ycol2=[1 1 1 0]; Ycol2=interp1(xcol,ycol2,Xcol);
+%     ycol3=[1 1 1 1]; Ycol3=interp1(xcol,ycol3,Xcol);
+%%% violet orange 
+%     ycol1=[0.5 1 1 1]; Ycol1=interp1(xcol,ycol1,Xcol);
+%     ycol2=[0.5 1 1 0.5]; Ycol2=interp1(xcol,ycol2,Xcol);
+%     ycol3=[1 1 1 0]; Ycol3=interp1(xcol,ycol3,Xcol);
+  %%% violet rouge 
+    ycol1=[0.5 1 1 1]; Ycol1=interp1(xcol,ycol1,Xcol);
+    ycol2=[0.5 1 1 0]; Ycol2=interp1(xcol,ycol2,Xcol);
+    ycol3=[1 1 1 0]; Ycol3=interp1(xcol,ycol3,Xcol);
+    
+    map=[Ycol1' Ycol2' Ycol3'];
+    
+end
+
