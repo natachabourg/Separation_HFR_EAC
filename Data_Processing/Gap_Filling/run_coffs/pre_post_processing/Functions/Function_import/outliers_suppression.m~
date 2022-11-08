@@ -1,0 +1,227 @@
+
+% 
+% Suppresses the outliers from a time domain statistics analysis
+% 
+% 
+% Lucio Bellomo from Philippe Forget, 2012/06/28
+% 
+
+function data = outliers_suppression(data,params)
+
+i_y_plot = 13;
+i_x_plot = 10;
+
+time = data.time*24; % [days] -> [hours]
+vr   = data.vr;      % [m/s]
+delta_time = diff(time);
+
+
+%% Check the number of available time snapshots
+tmp = size(vr);
+if length(tmp) == 2
+    warning('No outlier suppression possible: only 1 snapshot is available!'); %#ok<WNTAG>
+    return;
+else
+    N_times = tmp(1);
+    N_y     = tmp(2);
+    N_x     = tmp(3);
+%     if N_times >= ???
+%         warning('No outlier suppression possible: less than ??? snapshot is available!');
+%         return;
+%     end
+end
+clear tmp
+
+
+%% Compute the statistic of the time-domain current gradient over the whole coverage area
+if params.method == 1
+    grad = abs(diff(vr,1,1))./repmat(delta_time,[1 N_y N_x]);
+    grad = grad(:);
+    grad = grad(~isnan(grad));
+    [pdf, values] = hist(grad,min([100 round(length(grad)/500)]));  % RATHER EMPIRIC, NOT SO CLEAN...
+%     figure;
+%     stem(values,pdf);
+    values_resolution = values(2) - values(1);                  % resolution of the histogram
+    pdf_thresh        = max(pdf)*params.percent/100;            % threshold on the pdf (nb. of gradients found at the threshold current gradient value)
+    ind_last          = find(pdf <= pdf_thresh,1,'first');      % index of the last valid bin of the histogram
+    threshold         = values(ind_last) - values_resolution/2;	% threshold on the current gradient [m/s/h]
+    disp(['The threshold value for current gradient is ' num2str(threshold) ' m/s/h']);
+elseif params.method == 3
+    threshold = params.max_gradient;
+end
+
+
+%% For each pixel, remove the outliers with a gradient above or equal threshold_value
+h = waitbar(0,'Outlier suppression');
+k = 1;
+isolated_points = zeros(size(vr));
+isolated_pairs  = zeros(size(vr));
+for i_x = 1 : N_x
+    for i_y = 1 : N_y
+        vr_time = squeeze(vr(:,i_y,i_x));
+        
+        % Compute the threshold value if the method is pixel-by-pixel
+        if params.method == 2
+            grad = abs(diff(vr_time))./delta_time;
+            grad = grad(~isnan(grad));
+            [pdf, values] = hist(grad,min([100 round(length(grad)/500)]));
+            values_resolution = values(2) - values(1);                  % resolution of the histogram
+            pdf_thresh        = max(pdf)*params.percent/100;            % threshold on the pdf (nb. of gradients found at the threshold current gradient value)
+            ind_last          = find(pdf <= pdf_thresh,1,'first');      % index of the last valid bin of the histogram
+            threshold         = values(ind_last) - values_resolution/2;
+        else
+            data.threshold_current_gradient(i_y,i_x) = threshold;
+        end
+        
+        if ~all(isnan(vr_time))
+            % - Remove the points with a too large gradient
+            grad_forward  =        [nan;   abs(diff(vr_time(1:1:end)))./delta_time(1:1:end)];
+            grad_backward = flipud([nan; abs(diff(vr_time(end:-1:1)))./delta_time(end:-1:1)]);
+            invalid = (grad_forward > threshold) & (grad_backward > threshold);
+            data.vr(invalid,i_y,i_x) = NaN;
+
+            % - Flag isolated points (a NaN before and a NaN after)
+            for i_time = 2 : N_times-1
+                if ~isnan(vr_time(i_time))
+                    if isnan(vr_time(i_time-1)) && isnan(vr_time(i_time+1))
+                        isolated_points(i_time,i_y,i_x) = 1;
+                    end
+                end
+            end
+            
+            % - Remove pairs of isolated points if their gradient is larger than the threshold
+            for i_time = 3 : N_times-1
+                if ~isnan(vr_time(i_time)) && ~isnan(vr_time(i_time-1))
+                    if isnan(vr_time(i_time-2)) && isnan(vr_time(i_time+1))
+                        grad = abs( vr_time(i_time) - vr_time(i_time-1) ) / delta_time(i_time-1);
+                        if grad > threshold
+                            isolated_pairs(i_time,i_y,i_x) = 1;
+                        end
+                    end
+                end
+            end
+            
+            % - Plot the time-domain signal to illustrate the algorithm behavior
+            if i_y == i_y_plot && i_x == i_x_plot
+                figure; hold on; grid on;
+                h1 = plot(time,vr_time,'-bx');
+                if ~isempty(h1)
+                    leg_str(1) = 'Original signal';
+                else
+                    leg_str1 = '';
+                end
+                h2 = plot(time(invalid),vr_time(invalid),' go','MarkerSize',2);
+                if ~isempty(h2)
+                    leg_str2 = 'Removed outliers';
+                else
+                    leg_str2 = '';
+                end
+                tmp1 = logical(squeeze(isolated_points(:,i_y,i_x)));
+                h3 = plot(time(tmp1),vr_time(tmp1),' ro');
+                if ~isempty(h3)
+                    leg_str3 = 'Isolated points';
+                else
+                    leg_str3 = '';
+                end
+                tmp2 = logical(squeeze(isolated_pairs(:,i_y,i_x)));
+                h4 = plot(time(tmp2),vr_time(tmp2),' mo');
+                if ~isempty(h4)
+                    leg_str4 = 'Isolated pairs with too large gradient';
+                else
+                    leg_str4 = '';
+                end
+                warning off MATLAB:legend:IgnoringExtraEntries
+                legend([h1, h2, h3, h4],{leg_str1,leg_str2,leg_str3,leg_str4});
+                title(['Pixel at (x,y) = ' data.xr(i_y_plot,i_x_plot) ',' ...
+                                           data.yr(i_y_plot,i_x_plot) ') km']);
+            end
+        end
+        
+        waitbar(k/(N_y*N_x));
+        k = k+1;
+    end
+end
+close(h);
+pause(0.1);
+
+
+%% Remove the isolated points if they are very different wrt their neighbor points
+ind_isol = find(isolated_points == 1);
+for i_isol = 1 : length(ind_isol)
+    [i_time, i_y, i_x] = ind2sub(size(isolated_points),ind_isol(i_isol));
+    vr_isol = data.vr(i_time,i_y,i_x);
+    % - Fetch the neighboring points (+/-2)
+    %   (handle the case of i_x == 1 or N_x, and i_y == 1 or N_y)
+    i_y_min = max(i_y-2,1);
+    i_y_max = min(i_y+2,N_y);
+    i_x_min = max(i_x-2,1);
+    i_x_max = min(i_x+2,N_x);
+    i_y_neighbor = [i_y_min:i_y-1, i_y+1:i_y_max];
+    i_x_neighbor = [i_x_min:i_x-1, i_x+1:i_x_max];
+    vr_near = squeeze( data.vr(i_time,i_y_neighbor,i_x_neighbor) );
+    vr_near = vr_near(:);               % make it a column vector
+    vr_near = vr_near(~isnan(vr_near)); % remove NaN's
+    % - Remove the point if 
+    %   1) it has no neighbors, or
+    %   2) if its difference wrt the neighbors is more than 10% of the min/mean difference
+    if isempty(vr_near)
+        data.vr(i_time,i_y,i_x) = NaN;
+    elseif length(vr_near) == 1
+        if vr_isol < 0.9*vr_near || vr_isol > 1.1*vr_near
+            data.vr(i_time,i_y,i_x) = NaN;
+        end
+    else
+        vr_near_mean = mean(vr_near);
+        vr_near_min  = 1.1*min(vr_near) - 0.1*vr_near_mean;
+        vr_near_max  = 1.1*max(vr_near) - 0.1*vr_near_mean;
+        if vr_isol < vr_near_min || vr_isol > vr_near_max
+            data.vr(i_time,i_y,i_x) = NaN;
+        end
+    end
+end
+
+
+%% Remove the pairs of isolated points if they are very different wrt their neighbor points
+ind_isol = find(isolated_pairs == 1);
+for i_isol = 1 : length(ind_isol)
+    [i_time, i_y, i_x] = ind2sub(size(isolated_pairs),ind_isol(i_isol));
+    vr_isol1 = vr(i_time-1,i_y,i_x);
+    vr_isol2 = vr(i_time,  i_y,i_x);
+    % - Fetch the neighboring points (+/-2)
+    %   (handle the case of i_x == 1 or N_x, and i_y == 1 or N_y)
+    i_y_min = max(i_y-2,1);
+    i_y_max = min(i_y+2,N_y);
+    i_x_min = max(i_x-2,1);
+    i_x_max = min(i_x+2,N_x);
+    i_y_neighbor = [i_y_min:i_y-1, i_y+1:i_y_max];
+    i_x_neighbor = [i_x_min:i_x-1, i_x+1:i_x_max];
+    vr_near1 = squeeze( data.vr(i_time-1,i_y_neighbor,i_x_neighbor) );
+    vr_near1 = vr_near1(:);
+    vr_near1 = vr_near1(~isnan(vr_near1));
+    vr_near2 = squeeze( data.vr(i_time,  i_y_neighbor,i_x_neighbor) );
+    vr_near2 = vr_near2(:);
+    vr_near2 = vr_near2(~isnan(vr_near2));
+    % - If the isolated points have no neighbors, remove them
+    alone = [0 0];
+    if isempty(vr_near1)
+        data.vr(i_time-1,i_y,i_x) = NaN;
+        alone(1) = 1;
+    end
+    if isempty(vr_near2)
+        data.vr(i_time,i_y,i_x) = NaN;
+        alone(2) = 1;
+    end
+    % - Else, remove the one that is more different wrt to its
+    %   neighbors (quite a ratial thing, this!)
+    if all(alone == 0)
+        diff1 = abs(vr_isol1 - mean(vr_near1));
+        diff2 = abs(vr_isol2 - mean(vr_near2));
+        if diff1 > diff2
+            data.vr(i_time-1,i_y,i_x) = NaN;
+        elseif diff2 > diff1
+            data.vr(i_time,i_y,i_x) = NaN;
+        else
+            % they are equally "different" => leave'em both!
+        end
+    end
+end

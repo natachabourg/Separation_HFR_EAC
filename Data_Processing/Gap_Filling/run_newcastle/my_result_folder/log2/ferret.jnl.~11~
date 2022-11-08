@@ -1,0 +1,22 @@
+ ! NOAA/PMEL TMAP
+ ! PyFerret v7.63 (optimized)
+ ! Linux 4.15.0-1096-azure - 10/13/20
+ !  2-Nov-22 17:28     
+
+set mode verify
+use currents_dineof_NEWC_Y2019M07_Y2021M12.nc
+sh d
+repeat/l=1:915 (vec/len=1 u,v,lon,lat; message quiet;)
+repeat/l=1:915 (vec/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;)
+use currents_NEWC_Y2019M07_Y2021M12_old.nc
+set win/as=0.5
+repeat/l=1:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1 u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;)
+repeat/l=1:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1:xlim=151E:154E:35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;)
+repeat/l=1:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;)
+repeat/l=1:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; message quiet;)
+repeat/l=1:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; message quiet;)
+repeat/l=50:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; message quiet;)
+repeat/l=50:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; message quiet;)
+repeat/l=150:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; message quiet;)
+repeat/l=150:915 (set view left; vec/d=1/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; set view right; vec/d=2/len=1/xskip=1/yskip=1/xlim=151E:154E/ylim=35S:32S u,v,lon,lat; message quiet;)
+quit()

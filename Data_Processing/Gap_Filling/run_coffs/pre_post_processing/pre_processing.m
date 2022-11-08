@@ -15,11 +15,11 @@
 
 clc; clear all; close all;
 
-disk = '/home/natachab/Bureau/';
-git = [disk 'eac_chloro_hfr_analysis/'];
+disk = '/media/nbourg/One Touch/PhD/';
+git = [disk 'Separation_HFR_EAC/'];
 
-path_out = [git 'hfr_data_processing/gap_filling/run_coffs/pre_post_processing/'];
-functions = [git 'hfr_data_processing/gap_filling/functions/'];
+path_out = [git 'Data_Processing/Gap_Filling/run_coffs/pre_post_processing/'];
+functions = [path_out 'Functions/'];
 addpath(functions)
 
 
@@ -29,7 +29,7 @@ ncname_in_all = {'RRK_daily_Y2019_M07_Y2021_M12.nc','NNB_daily_Y2019_M07_Y2021_M
 for s = 1:2
     sta = stations{s};
 
-    path_data = [git 'hfr_data_processing/gap_filling/run_coffs/original_data/'];
+    path_data = [git 'Data_Processing/Gap_Filling/run_coffs/original_data/'];
 
     ncname_in = ncname_in_all{s};
     

@@ -11,6 +11,7 @@ clc; clear all; close all;
 path = '/media/nbourg/One Touch/PhD/Separation_HFR_EAC/Data_Processing/Gap_Filling/run_newcastle/';
 addpath([path 'pre_post_processing/Functions/Function_matlab/']);
 addpath([path 'pre_post_processing/Functions/Function_carto/']);
+addpath([path 'pre_post_processing/Functions/']);
 
 %addpath('/home/natachab/Bureau/eac_chloro_hfr_analysis/hfr_data_processing/qc/merged_qc/');
 
@@ -68,6 +69,8 @@ vr2_masked(:,:,isnan(mask_seal_time)) = NaN;
 vr1_masked(:,:,isnan(mask_all_time)) = NaN;
 vr2_masked(:,:,isnan(mask_all_time)) = NaN;
 
+vr1_masked(abs(vr1_masked)>10)=NaN;
+vr2_masked(abs(vr2_masked)>10)=NaN;
 
 % Put the data in a structure needed for the vector mapping function
 for i =1:2
@@ -81,10 +84,6 @@ for i =1:2
     angr = -nanmean(ang, 3)+90;
     
     DATEjulian = ncread(pre_file,'time');
-    vr = ncread(data_file{i},'v');
-    
-    
-    vr(abs(vr)>10)=NaN;
     time0 = ncreadatt(ini_file{i},'time','units');
     time0 = time0(end-18:end);
 
@@ -127,11 +126,6 @@ for i_time = 1 : N_times
     v(i_time,:,:) = currents(i_time).v;
 end
 
-speed = sqrt(u.^2+v.^2);
-u(abs(u) > 2) = NaN;
-v(abs(v) > 2) = NaN;
-u(speed>2)=NaN;
-v(speed>2)=NaN;
 
 %%
 

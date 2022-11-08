@@ -3,17 +3,17 @@
 
 
 %% Rectangular cartesian grid for mapping plots
-cartesian_grid.lon_lim    = [151 154]';%[5.7 6.7]'; %%     % longitude limits
-cartesian_grid.lat_lim    = [-35 -32]';%[42.45 43.05]';%  % latitude limits
-cartesian_grid.step       = 10;%2;               % grid step (same for x and y) [km]
+cartesian_grid.lon_lim    = [150.758131+5/111 155.113359+18/111]';%[5.7 6.7]'; %%     % longitude limits
+cartesian_grid.lat_lim    = [-34.547669-2/111 -30.870066+(3/111)]';%[42.45 43.05]';%  % latitude limits
+cartesian_grid.step       = 6;%2;               % grid step (same for x and y) [km]
 cartesian_grid.rot_angle  = 0;               % counterclockwise rotation angle of the grid wrt the WE axis
 cartesian_grid.GDOP_thresh = 2.5;            % maximum allowed normalized GDOP error
-cartesian_grid.ang_thresh  = 10;             % minimum allowed angle between "radial" directions [deg]
+cartesian_grid.ang_thresh  = [30 150];             % minimum allowed angle between "radial" directions [deg]
 
 
 %% Cartesian mapping processing
 cartesian_data_params.use_geo_mask      = 0;        % use the geographic mask in grid_cartesian.mat
-cartesian_data_params.use_err_mask      = 0;        % use the error mask (GDOP or angle) in grid_cartesian.mat
+cartesian_data_params.use_err_mask      = 1;        % use the error mask (GDOP or angle) in grid_cartesian.mat
 cartesian_data_params.time_accuracy     = 25;       % maximum allowed time difference to "mix" two radial maps [min]
 cartesian_data_params.master_RADAR      = 'RHED';    % Nb. of the master RADAR nb. (1 or 2) used as time reference
 cartesian_data_params.mapping.method    = 5;        % Type of mapping algorithm
@@ -74,8 +74,8 @@ map.plot_bath=0;% plot isobaths (0 or 1) whose values are in installation/trace_
 map.bath_levels= [-100 -1000 -2000]; % isobaths levels to plot
 map.plot_land=0; %%% 0: trace les terres en couleurs; 0: rien
 
-map.lon0      = 5.861066;       % reference lon for x/y maps (only if map.lonlat_xy==2)
-map.lat0      = 43.063078;      % reference lat for x/y maps (only if map.lonlat_xy==2)
+map.lon0      = 152;       % reference lon for x/y maps (only if map.lonlat_xy==2)
+map.lat0      = -33;      % reference lat for x/y maps (only if map.lonlat_xy==2)
 
 % map.lon_lim   = [5.1  7.1]';% longitude range of the map [decimal deg]
 % map.lat_lim   = [42.1 43.15]';   % latitude range of the map  [decimal deg]
@@ -83,8 +83,8 @@ map.lat0      = 43.063078;      % reference lat for x/y maps (only if map.lonlat
 % map.lat_lim   = [41.2 43.9]';   % latitude range of the map  [decimal deg]
 
 %%%radiale:
-map.lon_lim   = [5.1  7.1]';% longitude range of the map [decimal deg]
-map.lat_lim   = [42.1 43.15]';   % latitude range of the map  [decimal deg]
+map.lon_lim    = [150.758131+5/111 155.113359+18/111]';%[5.7 6.7]'; %%     % longitude limits
+map.lat_lim    = [-34.547669-2/111 -30.870066+(3/111)]';%[42.45 43.05]';%  % latitude limits
 % %%% vecteur
 % map.lon_lim   = [5.6 6.8]';      % longitude limits
 % map.lat_lim   = [42.4 43.15]';  % latitude limits

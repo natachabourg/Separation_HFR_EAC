@@ -1,0 +1,11 @@
+ ! NOAA/PMEL TMAP
+ ! PyFerret v7.63 (optimized)
+ ! Linux 4.15.0-1096-azure - 10/13/20
+ !  8-Nov-22 15:40     
+
+set mode verify
+use currents_dineof_COFFS_Y2019M07_Y2020M12.nc
+sh d
+repeat/l=1:550 (vec/len=1 u,v,lon,lat; message quiet;)
+repeat/l=1:550 (vec/len=1/xskip=1/yskip=1 u,v,lon,lat; message quiet;)
+quit()

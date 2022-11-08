@@ -67,7 +67,7 @@ end
 
 
 %% Manually mask unuseful points (e.g. ground points)
-cartesian_grid.geo_mask = adjust_mask(cartesian_grid,map_opts.lonlat_xy,h);
+%cartesian_grid.geo_mask = adjust_mask(cartesian_grid,map_opts.lonlat_xy,h);
 
 
 %% Compute the Geometric Dilution Of Precision (GDOP) error
@@ -75,16 +75,17 @@ cartesian_grid = GDOP(RADAR_infos, cartesian_grid,map_opts);
 % cartesian_grid = GDOP_bkp(RADAR_infos, cartesian_grid);   % uses one _BEN.xyv to fetch the angles
                                                             % and griddata to cast them into the
                                                             % cartesian grid
-
+                                                       
 err = sqrt(cartesian_grid.err_GDOP_u.^2 + cartesian_grid.err_GDOP_v.^2);    % norm of GDOP normalized error
-ang = -squeeze(diff(cartesian_grid.radial_direction,1,1));                     % angle between the "radial" directions [deg]
+ang = -squeeze(diff(cartesian_grid.radial_direction,1,1));                     % ,angle between the "radial" directions [deg]
                                                                             % as it is written, ang is ang1 - ang2
 % Threshold on the error based on maximum allowed GDOP error and minimum
 % allowed angle between the radial distances
 err_mask = NaN(size(err));
+
 err_mask(cartesian_grid.err_GDOP_u <= cartesian_grid.GDOP_thresh & ...
          cartesian_grid.err_GDOP_v <= cartesian_grid.GDOP_thresh & ...
-         ang >= cartesian_grid.ang_thresh) = 1;
+         ang >= cartesian_grid.ang_thresh(1) & ang <= cartesian_grid.ang_thresh(2)) = 1;
 
 
 %% Plot the GDOP error, the angle between "radial" directions, and the retained grid points

@@ -1,4 +1,6 @@
 
+clc; clear all; close all;
+
 addpath('/media/nbourg/One Touch/PhD/Separation_HFR_EAC/Data_Processing/Gap_Filling/run_newcastle/pre_post_processing/Functions/Function_import/')
 addpath('/media/nbourg/One Touch/PhD/Separation_HFR_EAC/Data_Processing/Gap_Filling/run_newcastle/pre_post_processing/Functions/Function_installation/')
 
@@ -39,7 +41,7 @@ RADAR_infos(2).lat_tx      = -32.44; % TX latitude  [decimal deg]
 RADAR_infos(2).lon0        = 152.53;  % Origin of the radial grid, longitude [decimal deg]
 RADAR_infos(2).lat0        = -32.44; % Origin of the radial grid, latitude  [decimal deg]
 RADAR_infos(2).integr_time = 1;
-RADAR_infos(2).mono_bi = 1;                                           %                   n for n*the_reference_time)
+RADAR_infos(2).mono_bi = 2;                                           %                   n for n*the_reference_time)
 RADAR_infos(2).obs_id      = RADAR_infos(1).obs_id ;%'L2_Dineof';%'L1';%'L2_Dineof';%      % descriptif observation original
 
 
@@ -64,12 +66,12 @@ end
 
 
 
-cartesian_grid.lon_lim    = [150.7 155.2]';%[5.7 6.7]'; %%     % longitude limits
-cartesian_grid.lat_lim    = [-34.6 -30.5]';%[42.45 43.05]';%  % latitude limits
+cartesian_grid.lon_lim    = [150.758131+5/111 155.113359+18/111]';%[5.7 6.7]'; %%     % longitude limits
+cartesian_grid.lat_lim    = [-34.547669-2/111 -30.870066+(3/111)]';%[42.45 43.05]';%  % latitude limits
 cartesian_grid.step       = 6;%2;               % grid step (same for x and y) [km]
 cartesian_grid.rot_angle  = 0;               % counterclockwise rotation angle of the grid wrt the WE axis
 cartesian_grid.GDOP_thresh = 2.5;            % maximum allowed normalized GDOP error
-cartesian_grid.ang_thresh  = 30;             % minimum allowed angle between "radial" directions [deg]
+cartesian_grid.ang_thresh  = [30 150];             % minimum allowed angle between "radial" directions [deg]
 
 
 

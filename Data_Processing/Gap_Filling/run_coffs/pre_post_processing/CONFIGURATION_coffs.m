@@ -3,17 +3,17 @@
 
 
 %% Rectangular cartesian grid for mapping plots
-cartesian_grid.lon_lim    = [152.5 155.5]';%[5.7 6.7]'; %%     % longitude limits
-cartesian_grid.lat_lim    = [-31.5 -29.5]';%[42.45 43.05]';%  % latitude limits
-cartesian_grid.step       = 1;%2;               % grid step (same for x and y) [km]
+cartesian_grid.lon_lim    = [153.010561 154.775963+3/111]';%[5.7 6.7]'; %%     % longitude limits
+cartesian_grid.lat_lim    = [-31.609578 -29.363513]';%[42.45 43.05]';%  % latitude limits
+cartesian_grid.step       = 1.5;%2;               % grid step (same for x and y) [km]
 cartesian_grid.rot_angle  = 0;               % counterclockwise rotation angle of the grid wrt the WE axis
 cartesian_grid.GDOP_thresh = 2.5;            % maximum allowed normalized GDOP error
-cartesian_grid.ang_thresh  = 40;   %40 according to schaeffer          % minimum allowed angle between "radial" directions [deg]
+cartesian_grid.ang_thresh  = [-30 -150];   %40 according to schaeffer          % minimum allowed angle between "radial" directions [deg]
 
 
 %% Cartesian mapping processing
 cartesian_data_params.use_geo_mask      = 0;        % use the geographic mask in grid_cartesian.mat
-cartesian_data_params.use_err_mask      = 0;        % use the error mask (GDOP or angle) in grid_cartesian.mat
+cartesian_data_params.use_err_mask      = 1;        % use the error mask (GDOP or angle) in grid_cartesian.mat
 cartesian_data_params.time_accuracy     = 25;       % maximum allowed time difference to "mix" two radial maps [min]
 cartesian_data_params.master_RADAR      = 'RRK';    % Nb. of the master RADAR nb. (1 or 2) used as time reference
 cartesian_data_params.mapping.method    = 5;        % Type of mapping algorithm

@@ -1,0 +1,11 @@
+ ! NOAA/PMEL TMAP
+ ! PyFerret v7.3 (optimized)
+ ! Debian - 6/30/16 
+ ! 10-Aug-22 13:14     
+
+set mode verify
+use NNB_daily_Y2019_M07_Y2021_M12.nc
+sh d
+use RRK_daily_Y2019_M07_Y2021_M12.nc
+sh d
+EXIT /PROGRAM

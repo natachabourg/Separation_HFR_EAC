@@ -1,0 +1,48 @@
+
+
+
+function plot_save_radial(map,data,save_data)
+
+
+h_fig = figure; hold on;
+
+% Trace coastline and bathymetry
+trace_coast(map);
+h_col = colorbar;
+ylabel(h_col,'Current speed (m/s)');
+
+% Loop on the time
+h = [];
+date_origin = datenum(data.time0);
+for i_t = 1 : size(data.vr,1)
+    delete(h);
+    
+    % Plot the radial currents
+    vr = squeeze(data.vr(i_t,:,:));
+    if map.lonlat_xy == 1
+        h = m_pcolor(data.lonr,data.latr,vr,'Shading','flat');
+        shading(get(gcf,'CurrentAxes'),'flat');
+        caxis([-1 1]);
+    else
+        [dx, dy] = xy2lonlat(data.lon0,data.lat0,map.lon0,map.lat0,1);
+        h = pcolor(data.xr-dx,data.yr-dy,vr);
+        shading flat;
+        caxis([-1 1]);
+    end
+    title(datestr(data.time(i_t)+date_origin));
+    
+    % Save the figure, if asked
+    if save_data.save_png
+        date = julday2date(data.time(i_t),data.time0);
+        savefig(date.radar,h_fig,'png');
+        movefile([date.radar '.*'],[save_data.path_png]);
+    else
+        pause(0.5);  % Useful to trim the time a figure (i.e., a date) stays on the screen
+    end
+ 
+end
+
+
+
+
+

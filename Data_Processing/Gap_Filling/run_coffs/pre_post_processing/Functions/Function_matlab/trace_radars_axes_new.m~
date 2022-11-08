@@ -1,0 +1,31 @@
+%%% JM
+%%% 30/03/2010
+%%% tracé des radar et axe latéraux
+
+msr=10;                 %markersize des radars
+lwl=2;                  %linewidth des axes radar lateraux
+
+if i_km==1  %%% en km
+    for irad=i_station:i_station
+       
+        plot(xrad0(irad),yrad0(irad),'v','markersize',msr,'MarkerEdgeColor','k',...
+            'MarkerFaceColor','k');
+        plot(xkm2(:,1),ykm2(:,1),'k','linewidth',lwl);
+        plot(xkm2(:,end),ykm2(:,end),'k','linewidth',lwl);
+        plot(xkm2(end,:),ykm2(end,:),'k','linewidth',lwl);
+           
+    end
+    
+else  %%% lon/lat
+    
+    for irad=i_station:i_station
+
+        plot(lonrad(irad),latrad(irad),'v','markersize',msr,'MarkerEdgeColor','k',...
+            'MarkerFaceColor','k');  
+        plot(lon2(:,1),lat2(:,1),'k','linewidth',lwl);
+        plot(lon2(:,end),lat2(:,end),'k','linewidth',lwl);
+        plot(lon2(end,:),lat2(end,:),'k','linewidth',lwl);
+        
+    end
+    
+end

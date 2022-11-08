@@ -45,8 +45,8 @@ function [currents cartesian_grid] = vector_mapping(radial_data,params)
 name1 = 'RRK';
 name2 = 'NNB';
 
-if exist([pwd '/grid_cartesian05.mat'],'file')
-    load([pwd '/grid_cartesian05.mat']);
+if exist([pwd '/grid_cartesian.mat'],'file')
+    load([pwd '/grid_cartesian.mat']);
 elseif exist(['grid_cartesian_' name2 '.mat'],'file')
     load(['grid_cartesian_' name2 '.mat']);
 else
